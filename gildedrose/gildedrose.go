@@ -9,13 +9,6 @@ const TypeAgedBrie = "Aged Brie"
 const TypePasses = "Backstage passes to a TAFKAL80ETC concert"
 const TypeLegendary = "Sulfuras, Hand of Ragnaros"
 
-func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
-
-	behaviour.UpdateQualityBeforeSellIn()
-	behaviour.UpdateSellIn()
-	behaviour.UpdateQualityAfterSellIn()
-}
-
 type ItemBehaviour interface {
 	UpdateQualityBeforeSellIn()
 	UpdateSellIn()
@@ -124,7 +117,10 @@ func UpdateQuality(items []*Item) {
 			tmp.item = items[i]
 			behaviour = tmp
 		}
-		items[i].UpdateItemQuality(behaviour)
+
+		behaviour.UpdateQualityBeforeSellIn()
+		behaviour.UpdateSellIn()
+		behaviour.UpdateQualityAfterSellIn()
 	}
 
 }
