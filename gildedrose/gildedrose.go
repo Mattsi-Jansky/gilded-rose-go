@@ -13,9 +13,7 @@ func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
 
 	behaviour.UpdateQuality()
 
-	if item.Name != "Sulfuras, Hand of Ragnaros" {
-		item.SellIn = item.SellIn - 1
-	}
+	behaviour.UpdateSellIn()
 
 	if item.SellIn < 0 {
 		if item.Name != "Aged Brie" {
@@ -36,16 +34,11 @@ func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
 
 type ItemBehaviour interface {
 	UpdateQuality()
+	UpdateSellIn()
 }
 
 type RegularItem struct {
 	item *Item
-}
-
-func (item *RegularItem) UpdateQuality() {
-	if item.item.Quality > 0 {
-		item.item.Quality -= 1
-	}
 }
 
 type LegendaryItem struct {
@@ -58,6 +51,26 @@ type AgedBrieItem struct {
 
 type BackStagePassItem struct {
 	item *Item
+}
+
+func (item *RegularItem) UpdateSellIn() {
+	item.item.SellIn = item.item.SellIn - 1
+}
+
+func (item *LegendaryItem) UpdateSellIn() {}
+
+func (item *AgedBrieItem) UpdateSellIn() {
+	item.item.SellIn = item.item.SellIn - 1
+}
+
+func (item *BackStagePassItem) UpdateSellIn() {
+	item.item.SellIn = item.item.SellIn - 1
+}
+
+func (item *RegularItem) UpdateQuality() {
+	if item.item.Quality > 0 {
+		item.item.Quality -= 1
+	}
 }
 
 func (item *LegendaryItem) UpdateQuality() {}
