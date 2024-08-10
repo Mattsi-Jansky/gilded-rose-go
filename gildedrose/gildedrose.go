@@ -12,11 +12,11 @@ const TypeLegendary = "Sulfuras, Hand of Ragnaros"
 func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
 	if item.Name != "Aged Brie" && item.Name != "Backstage passes to a TAFKAL80ETC concert" {
 		if item.Quality > 0 {
-			behaviour.DecrementQuality()
+			behaviour.UpdateQuality()
 		}
 	} else {
 		if item.Quality < 50 {
-			behaviour.DecrementQuality()
+			behaviour.UpdateQuality()
 		}
 	}
 
@@ -28,7 +28,7 @@ func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
 		if item.Name != "Aged Brie" {
 			if item.Name != "Backstage passes to a TAFKAL80ETC concert" {
 				if item.Quality > 0 {
-					behaviour.DecrementQuality()
+					behaviour.UpdateQuality()
 				}
 			} else {
 				item.Quality = item.Quality - item.Quality
@@ -42,14 +42,14 @@ func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
 }
 
 type ItemBehaviour interface {
-	DecrementQuality()
+	UpdateQuality()
 }
 
 type RegularItem struct {
 	item *Item
 }
 
-func (item *RegularItem) DecrementQuality() {
+func (item *RegularItem) UpdateQuality() {
 	item.item.Quality -= 1
 }
 
@@ -65,13 +65,13 @@ type BackStagePassItem struct {
 	item *Item
 }
 
-func (item *LegendaryItem) DecrementQuality() {}
+func (item *LegendaryItem) UpdateQuality() {}
 
-func (item *AgedBrieItem) DecrementQuality() {
+func (item *AgedBrieItem) UpdateQuality() {
 	item.item.Quality += 1
 }
 
-func (item *BackStagePassItem) DecrementQuality() {
+func (item *BackStagePassItem) UpdateQuality() {
 	item.item.Quality += 1
 	if item.item.SellIn < 11 {
 		if item.item.Quality < 50 {
