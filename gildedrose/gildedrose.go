@@ -9,12 +9,6 @@ const TypeAgedBrie = "Aged Brie"
 const TypePasses = "Backstage passes to a TAFKAL80ETC concert"
 const TypeLegendary = "Sulfuras, Hand of Ragnaros"
 
-type ItemBehaviour interface {
-	UpdateQualityBeforeSellIn()
-	UpdateSellIn()
-	UpdateQualityAfterSellIn()
-}
-
 type RegularItem struct {
 	item *Item
 }
