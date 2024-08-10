@@ -13,7 +13,8 @@ func Test_Foo(t *testing.T) {
 
 	gildedrose.UpdateQuality(items)
 
-	if items[0].Name != "fixme" {
-		t.Errorf("Name: Expected %s but got %s ", "fixme", items[0].Name)
+	const expected = "foo"
+	if items[0].Name != expected {
+		t.Errorf("Name: Expected %s but got %s ", expected, items[0].Name)
 	}
 }
