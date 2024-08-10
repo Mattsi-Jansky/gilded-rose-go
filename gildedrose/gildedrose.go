@@ -16,19 +16,7 @@ func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
 		}
 	} else {
 		if item.Quality < 50 {
-			item.Quality = item.Quality + 1
-			if item.Name == "Backstage passes to a TAFKAL80ETC concert" {
-				if item.SellIn < 11 {
-					if item.Quality < 50 {
-						item.Quality = item.Quality + 1
-					}
-				}
-				if item.SellIn < 6 {
-					if item.Quality < 50 {
-						item.Quality = item.Quality + 1
-					}
-				}
-			}
+			behaviour.DecrementQuality()
 		}
 	}
 
@@ -69,7 +57,33 @@ type LegendaryItem struct {
 	item *Item
 }
 
+type AgedBrieItem struct {
+	item *Item
+}
+
+type BackStagePassItem struct {
+	item *Item
+}
+
 func (item *LegendaryItem) DecrementQuality() {}
+
+func (item *AgedBrieItem) DecrementQuality() {
+	item.item.Quality += 1
+}
+
+func (item *BackStagePassItem) DecrementQuality() {
+	item.item.Quality += 1
+	if item.item.SellIn < 11 {
+		if item.item.Quality < 50 {
+			item.item.Quality = item.item.Quality + 1
+		}
+	}
+	if item.item.SellIn < 6 {
+		if item.item.Quality < 50 {
+			item.item.Quality = item.item.Quality + 1
+		}
+	}
+}
 
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
@@ -77,6 +91,14 @@ func UpdateQuality(items []*Item) {
 		switch items[i].Name {
 		case TypeLegendary:
 			tmp := new(LegendaryItem)
+			tmp.item = items[i]
+			behaviour = tmp
+		case TypeAgedBrie:
+			tmp := new(AgedBrieItem)
+			tmp.item = items[i]
+			behaviour = tmp
+		case TypePasses:
+			tmp := new(BackStagePassItem)
 			tmp.item = items[i]
 			behaviour = tmp
 		default:
