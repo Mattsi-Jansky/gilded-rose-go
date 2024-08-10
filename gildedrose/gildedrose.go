@@ -11,30 +11,15 @@ const TypeLegendary = "Sulfuras, Hand of Ragnaros"
 
 func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
 
-	behaviour.UpdateQuality()
-
+	behaviour.UpdateQualityBeforeSellIn()
 	behaviour.UpdateSellIn()
-
-	if item.SellIn < 0 {
-		if item.Name != "Aged Brie" {
-			if item.Name != "Backstage passes to a TAFKAL80ETC concert" {
-				if item.Quality > 0 {
-					behaviour.UpdateQuality()
-				}
-			} else {
-				item.Quality = item.Quality - item.Quality
-			}
-		} else {
-			if item.Quality < 50 {
-				item.Quality = item.Quality + 1
-			}
-		}
-	}
+	behaviour.UpdateQualityAfterSellIn()
 }
 
 type ItemBehaviour interface {
-	UpdateQuality()
+	UpdateQualityBeforeSellIn()
 	UpdateSellIn()
+	UpdateQualityAfterSellIn()
 }
 
 type RegularItem struct {
@@ -67,21 +52,41 @@ func (item *BackStagePassItem) UpdateSellIn() {
 	item.item.SellIn = item.item.SellIn - 1
 }
 
-func (item *RegularItem) UpdateQuality() {
+func (item *RegularItem) UpdateQualityAfterSellIn() {
+	if item.item.SellIn < 0 && item.item.Quality > 0 {
+		item.item.Quality = item.item.Quality - 1
+	}
+}
+
+func (item *LegendaryItem) UpdateQualityAfterSellIn() {}
+
+func (item *AgedBrieItem) UpdateQualityAfterSellIn() {
+	if item.item.SellIn < 0 && item.item.Quality < 50 {
+		item.item.Quality = item.item.Quality + 1
+	}
+}
+
+func (item *BackStagePassItem) UpdateQualityAfterSellIn() {
+	if item.item.SellIn < 0 {
+		item.item.Quality = 0
+	}
+}
+
+func (item *RegularItem) UpdateQualityBeforeSellIn() {
 	if item.item.Quality > 0 {
 		item.item.Quality -= 1
 	}
 }
 
-func (item *LegendaryItem) UpdateQuality() {}
+func (item *LegendaryItem) UpdateQualityBeforeSellIn() {}
 
-func (item *AgedBrieItem) UpdateQuality() {
+func (item *AgedBrieItem) UpdateQualityBeforeSellIn() {
 	if item.item.Quality < 50 {
 		item.item.Quality += 1
 	}
 }
 
-func (item *BackStagePassItem) UpdateQuality() {
+func (item *BackStagePassItem) UpdateQualityBeforeSellIn() {
 	if item.item.Quality < 50 {
 
 		item.item.Quality += 1
