@@ -40,9 +40,7 @@ func (item *Item) UpdateItemQuality(behaviour ItemBehaviour) {
 		if item.Name != "Aged Brie" {
 			if item.Name != "Backstage passes to a TAFKAL80ETC concert" {
 				if item.Quality > 0 {
-					if item.Name != "Sulfuras, Hand of Ragnaros" {
-						item.Quality = item.Quality - 1
-					}
+					behaviour.DecrementQuality()
 				}
 			} else {
 				item.Quality = item.Quality - item.Quality
@@ -60,15 +58,15 @@ type ItemBehaviour interface {
 }
 
 type RegularItem struct {
-	Item Item
+	item *Item
 }
 
 func (item *RegularItem) DecrementQuality() {
-	item.Item.Quality -= 1
+	item.item.Quality -= 1
 }
 
 type LegendaryItem struct {
-	Item Item
+	item *Item
 }
 
 func (item *LegendaryItem) DecrementQuality() {}
@@ -78,9 +76,13 @@ func UpdateQuality(items []*Item) {
 		var behaviour ItemBehaviour = nil
 		switch items[i].Name {
 		case TypeLegendary:
-			behaviour = new(LegendaryItem)
+			tmp := new(LegendaryItem)
+			tmp.item = items[i]
+			behaviour = tmp
 		default:
-			behaviour = new(RegularItem)
+			tmp := new(RegularItem)
+			tmp.item = items[i]
+			behaviour = tmp
 		}
 		items[i].UpdateItemQuality(behaviour)
 	}
