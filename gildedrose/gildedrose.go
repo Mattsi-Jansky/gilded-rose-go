@@ -31,66 +31,66 @@ type BackStagePassItem struct {
 	item *Item
 }
 
-func (item *RegularItem) UpdateSellIn() {
-	item.item.SellIn = item.item.SellIn - 1
+func (wrapper *RegularItem) UpdateSellIn() {
+	wrapper.item.SellIn = wrapper.item.SellIn - 1
 }
 
-func (item *LegendaryItem) UpdateSellIn() {}
+func (wrapper *LegendaryItem) UpdateSellIn() {}
 
-func (item *AgedBrieItem) UpdateSellIn() {
-	item.item.SellIn = item.item.SellIn - 1
+func (wrapper *AgedBrieItem) UpdateSellIn() {
+	wrapper.item.SellIn = wrapper.item.SellIn - 1
 }
 
-func (item *BackStagePassItem) UpdateSellIn() {
-	item.item.SellIn = item.item.SellIn - 1
+func (wrapper *BackStagePassItem) UpdateSellIn() {
+	wrapper.item.SellIn = wrapper.item.SellIn - 1
 }
 
-func (item *RegularItem) UpdateQualityAfterSellIn() {
-	if item.item.SellIn < 0 && item.item.Quality > 0 {
-		item.item.Quality = item.item.Quality - 1
+func (wrapper *RegularItem) UpdateQualityAfterSellIn() {
+	if wrapper.item.SellIn < 0 && wrapper.item.Quality > 0 {
+		wrapper.item.Quality = wrapper.item.Quality - 1
 	}
 }
 
-func (item *LegendaryItem) UpdateQualityAfterSellIn() {}
+func (wrapper *LegendaryItem) UpdateQualityAfterSellIn() {}
 
-func (item *AgedBrieItem) UpdateQualityAfterSellIn() {
-	if item.item.SellIn < 0 && item.item.Quality < 50 {
-		item.item.Quality = item.item.Quality + 1
+func (wrapper *AgedBrieItem) UpdateQualityAfterSellIn() {
+	if wrapper.item.SellIn < 0 && wrapper.item.Quality < 50 {
+		wrapper.item.Quality = wrapper.item.Quality + 1
 	}
 }
 
-func (item *BackStagePassItem) UpdateQualityAfterSellIn() {
-	if item.item.SellIn < 0 {
-		item.item.Quality = 0
+func (wrapper *BackStagePassItem) UpdateQualityAfterSellIn() {
+	if wrapper.item.SellIn < 0 {
+		wrapper.item.Quality = 0
 	}
 }
 
-func (item *RegularItem) UpdateQualityBeforeSellIn() {
-	if item.item.Quality > 0 {
-		item.item.Quality -= 1
+func (wrapper *RegularItem) UpdateQualityBeforeSellIn() {
+	if wrapper.item.Quality > 0 {
+		wrapper.item.Quality -= 1
 	}
 }
 
-func (item *LegendaryItem) UpdateQualityBeforeSellIn() {}
+func (wrapper *LegendaryItem) UpdateQualityBeforeSellIn() {}
 
-func (item *AgedBrieItem) UpdateQualityBeforeSellIn() {
-	if item.item.Quality < 50 {
-		item.item.Quality += 1
+func (wrapper *AgedBrieItem) UpdateQualityBeforeSellIn() {
+	if wrapper.item.Quality < 50 {
+		wrapper.item.Quality += 1
 	}
 }
 
-func (item *BackStagePassItem) UpdateQualityBeforeSellIn() {
-	if item.item.Quality < 50 {
+func (wrapper *BackStagePassItem) UpdateQualityBeforeSellIn() {
+	if wrapper.item.Quality < 50 {
 
-		item.item.Quality += 1
-		if item.item.SellIn < 11 {
-			if item.item.Quality < 50 {
-				item.item.Quality = item.item.Quality + 1
+		wrapper.item.Quality += 1
+		if wrapper.item.SellIn < 11 {
+			if wrapper.item.Quality < 50 {
+				wrapper.item.Quality = wrapper.item.Quality + 1
 			}
 		}
-		if item.item.SellIn < 6 {
-			if item.item.Quality < 50 {
-				item.item.Quality = item.item.Quality + 1
+		if wrapper.item.SellIn < 6 {
+			if wrapper.item.Quality < 50 {
+				wrapper.item.Quality = wrapper.item.Quality + 1
 			}
 		}
 	}
