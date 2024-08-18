@@ -6,7 +6,7 @@ type ConjuredItem struct {
 
 func (wrapper *ConjuredItem) UpdateQualityAfterSellIn() {
 	if wrapper.item.SellIn < 0 && wrapper.item.Quality > 0 {
-		wrapper.item.Quality = wrapper.item.Quality - 1
+		wrapper.item.Quality = wrapper.item.Quality - 2
 	}
 }
 func (wrapper *ConjuredItem) UpdateSellIn() {

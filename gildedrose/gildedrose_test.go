@@ -212,3 +212,15 @@ func TestConjuredItemsDegradeInQualityTwiceAsFast(t *testing.T) {
 		t.Errorf("Quality: Expected %d but got %d ", expected, items[0].Quality)
 	}
 }
+
+func TestGivenSellInIsNegativeConjuredItemsDegradeInQualityTwiceAsFast(t *testing.T) {
+	var items = []*gildedrose.Item{
+		{"Conjured Mana Cake", -1, 5},
+	}
+
+	gildedrose.UpdateQuality(items)
+	const expected = 1
+	if items[0].Quality != expected {
+		t.Errorf("Quality: Expected %d but got %d ", expected, items[0].Quality)
+	}
+}
