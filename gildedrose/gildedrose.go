@@ -8,6 +8,7 @@ type Item struct {
 const TypeAgedBrie = "Aged Brie"
 const TypePasses = "Backstage passes to a TAFKAL80ETC concert"
 const TypeLegendary = "Sulfuras, Hand of Ragnaros"
+const TypeConjured = "Conjured Mana Cake"
 
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
@@ -23,6 +24,10 @@ func UpdateQuality(items []*Item) {
 			behaviour = tmp
 		case TypePasses:
 			tmp := new(BackStagePassItem)
+			tmp.item = items[i]
+			behaviour = tmp
+		case TypeConjured:
+			tmp := new(ConjuredItem)
 			tmp.item = items[i]
 			behaviour = tmp
 		default:
